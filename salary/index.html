@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연봉 실수령액 계산기 - 2024년 4대보험, 세금 계산</title>
+    <meta name="description" content="연봉을 입력하면 4대보험과 소득세를 공제한 월 실수령액을 계산합니다. 2024년 최신 요율 적용.">
+    <meta name="keywords" content="연봉 계산기, 실수령액, 4대보험, 소득세, 월급 계산, 세후 연봉, 급여 계산기">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="연봉 실수령액 계산기 - 2024년 4대보험, 세금 계산">
+    <meta property="og:description" content="연봉을 입력하면 4대보험과 소득세를 공제한 월 실수령액을 계산합니다. 2024년 최신 요율 적용.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ko_KR">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <main class="container">
+        <h1>연봉 실수령액 계산기</h1>
+        <p class="subtitle">2024년 4대보험 요율 적용</p>
+
+        <section class="input-section">
+            <div class="input-group">
+                <label for="salary">연봉</label>
+                <div class="input-with-unit">
+                    <input type="number" id="salary" placeholder="예: 5000" min="0">
+                    <select id="salaryUnit" aria-label="연봉 단위">
+                        <option value="10000">만원</option>
+                        <option value="1">원</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-row-group">
+                <div class="input-group">
+                    <label for="dependents">부양가족 수 (본인 포함)</label>
+                    <select id="dependents">
+                        <option value="1" selected>1명</option>
+                        <option value="2">2명</option>
+                        <option value="3">3명</option>
+                        <option value="4">4명</option>
+                        <option value="5">5명</option>
+                        <option value="6">6명</option>
+                        <option value="7">7명</option>
+                        <option value="8">8명 이상</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="children">20세 이하 자녀 수</label>
+                    <select id="children">
+                        <option value="0" selected>0명</option>
+                        <option value="1">1명</option>
+                        <option value="2">2명</option>
+                        <option value="3">3명</option>
+                        <option value="4">4명 이상</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="nonTaxable">비과세액 (월, 식대 등)</label>
+                <div class="input-with-unit">
+                    <input type="number" id="nonTaxable" placeholder="200000" value="200000" min="0">
+                    <span class="unit-text">원</span>
+                </div>
+            </div>
+
+            <button id="calculateBtn" class="calculate-btn">계산하기</button>
+        </section>
+
+        <section id="resultSection" class="result-section" style="display: none;">
+            <h2>실수령액</h2>
+            <div class="stats">
+                <div class="stat-box large">
+                    <span class="stat-label">월 실수령액</span>
+                    <span class="stat-value" id="monthlyNet">-</span>
+                </div>
+                <div class="stat-box large">
+                    <span class="stat-label">연 실수령액</span>
+                    <span class="stat-value" id="yearlyNet">-</span>
+                </div>
+            </div>
+
+            <div class="stats stats-secondary">
+                <div class="stat-box stat-box-alt">
+                    <span class="stat-label">실수령 비율</span>
+                    <span class="stat-value" id="netRatio">-</span>
+                </div>
+                <div class="stat-box stat-box-alt">
+                    <span class="stat-label">월 공제 총액</span>
+                    <span class="stat-value" id="totalDeduction">-</span>
+                </div>
+            </div>
+
+            <h3>공제 항목 상세</h3>
+            <div class="deduction-table">
+                <div class="deduction-row">
+                    <span class="deduction-label">국민연금 (4.5%)</span>
+                    <span class="deduction-value" id="pension">-</span>
+                </div>
+                <div class="deduction-row">
+                    <span class="deduction-label">건강보험 (3.545%)</span>
+                    <span class="deduction-value" id="health">-</span>
+                </div>
+                <div class="deduction-row">
+                    <span class="deduction-label">장기요양보험 (건강보험의 12.95%)</span>
+                    <span class="deduction-value" id="longterm">-</span>
+                </div>
+                <div class="deduction-row">
+                    <span class="deduction-label">고용보험 (0.9%)</span>
+                    <span class="deduction-value" id="employment">-</span>
+                </div>
+                <div class="deduction-row">
+                    <span class="deduction-label">소득세</span>
+                    <span class="deduction-value" id="incomeTax">-</span>
+                </div>
+                <div class="deduction-row">
+                    <span class="deduction-label">지방소득세 (소득세의 10%)</span>
+                    <span class="deduction-value" id="localTax">-</span>
+                </div>
+                <div class="deduction-row total">
+                    <span class="deduction-label">공제 합계</span>
+                    <span class="deduction-value" id="totalDeductionDetail">-</span>
+                </div>
+            </div>
+
+            <p class="disclaimer">※ 본 계산기는 참고용이며 실제 급여와 다를 수 있습니다. 정확한 금액은 급여 담당자에게 문의하세요.</p>
+        </section>
+
+        <section class="info-section">
+            <h2>4대보험 안내</h2>
+
+            <h3>국민연금</h3>
+            <p>국민연금은 노후 생활 보장을 위한 사회보험입니다. 근로자와 사업주가 각각 4.5%씩 부담하며, 월 소득 617만원(2024년 기준) 이상은 상한액이 적용됩니다. 납부한 보험료는 만 60세 이후 연금으로 수령할 수 있습니다.</p>
+
+            <h3>건강보험</h3>
+            <p>건강보험은 질병, 부상 시 의료비 부담을 줄여주는 사회보험입니다. 2024년 기준 보험료율은 7.09%이며, 근로자와 사업주가 각각 3.545%씩 부담합니다. 피부양자(배우자, 부모, 자녀 등)도 함께 보장받을 수 있습니다.</p>
+
+            <h3>장기요양보험</h3>
+            <p>장기요양보험은 고령이나 노인성 질병으로 일상생활이 어려운 분들에게 요양 서비스를 제공합니다. 건강보험료의 12.95%(2024년 기준)가 부과되며, 근로자와 사업주가 각각 절반씩 부담합니다.</p>
+
+            <h3>고용보험</h3>
+            <p>고용보험은 실업 시 생활 안정과 재취업을 지원합니다. 근로자는 0.9%, 사업주는 0.9%~1.65%(기업 규모에 따라 다름)를 부담합니다. 실업급여, 육아휴직급여, 직업능력개발 지원 등을 받을 수 있습니다.</p>
+
+            <h2>소득세 계산</h2>
+            <p>근로소득세는 연간 총 급여에서 근로소득공제, 인적공제 등을 제외한 과세표준에 세율을 적용하여 계산합니다. 부양가족 수가 많을수록 인적공제가 늘어나 세금이 줄어듭니다. 지방소득세는 소득세의 10%가 추가로 부과됩니다.</p>
+
+            <h3>2024년 소득세율</h3>
+            <p>과세표준 1,400만원 이하 6%, 5,000만원 이하 15%, 8,800만원 이하 24%, 1억 5천만원 이하 35%, 3억원 이하 38%, 5억원 이하 40%, 10억원 이하 42%, 10억원 초과 45%가 적용됩니다.</p>
+
+            <h2>비과세 항목</h2>
+            <p>식대(월 20만원 한도), 자가운전보조금(월 20만원), 출산/보육수당(월 10만원) 등은 비과세 항목으로 세금이 부과되지 않습니다. 비과세액은 4대보험과 세금 계산 시 제외됩니다.</p>
+        </section>
+
+        <a href="./../" class="back-link">다른 도구 보기</a>
+    </main>
+
+    <script src="./main.js"></script>
+</body>
+</html>
