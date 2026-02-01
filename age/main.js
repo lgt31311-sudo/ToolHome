@@ -22,16 +22,65 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '사수자리', emoji: '♐', startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 }
     ];
 
-    birthDateInput.addEventListener('change', calculateAge);
+    // 숫자만 입력되도록 처리하고 자동으로 공백 추가
+    birthDateInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 남김
+
+        // 자동 공백 추가: YYYY MM DD
+        if (value.length > 4) {
+            value = value.slice(0, 4) + ' ' + value.slice(4);
+        }
+        if (value.length > 7) {
+            value = value.slice(0, 7) + ' ' + value.slice(7);
+        }
+
+        e.target.value = value.slice(0, 10); // 최대 10자 (YYYY MM DD)
+
+        calculateAge();
+    });
+
+    // 붙여넣기 시에도 처리
+    birthDateInput.addEventListener('paste', function(e) {
+        setTimeout(function() {
+            let value = birthDateInput.value.replace(/[^0-9]/g, '');
+            if (value.length > 4) {
+                value = value.slice(0, 4) + ' ' + value.slice(4);
+            }
+            if (value.length > 7) {
+                value = value.slice(0, 7) + ' ' + value.slice(7);
+            }
+            birthDateInput.value = value.slice(0, 10);
+            calculateAge();
+        }, 0);
+    });
 
     function calculateAge() {
         const birthDateValue = birthDateInput.value;
-        if (!birthDateValue) {
+
+        // YYYY MM DD 형식 검증 (10자리)
+        if (birthDateValue.length !== 10) {
             resultSection.style.display = 'none';
             return;
         }
 
-        const birthDate = new Date(birthDateValue);
+        const parts = birthDateValue.split(' ');
+        if (parts.length !== 3) {
+            resultSection.style.display = 'none';
+            return;
+        }
+
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10);
+        const day = parseInt(parts[2], 10);
+
+        // 유효한 날짜인지 검증
+        if (isNaN(year) || isNaN(month) || isNaN(day) ||
+            month < 1 || month > 12 || day < 1 || day > 31) {
+            resultSection.style.display = 'none';
+            return;
+        }
+
+        const birthDate = new Date(year, month - 1, day);
         const today = new Date();
 
         // 오늘 날짜 자정으로 설정
