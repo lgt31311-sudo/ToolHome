@@ -54,21 +54,31 @@ h3 {
     font-size: 14px;
 }
 
-input[type="date"] {
-    width: 100%;
-    max-width: 300px;
+.date-selects {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.date-selects select {
     padding: 14px 16px;
     border: 2px solid #e0e0e0;
     border-radius: 12px;
     font-size: 16px;
     font-family: inherit;
     transition: border-color 0.3s;
-    text-align: center;
+    background: white;
+    cursor: pointer;
+    min-width: 90px;
 }
 
-input[type="date"]:focus {
+.date-selects select:focus {
     outline: none;
     border-color: #667eea;
+}
+
+#birthYear {
+    min-width: 100px;
 }
 
 .result-section {

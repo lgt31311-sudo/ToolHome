@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const birthDateInput = document.getElementById('birthDate');
+    const birthYearSelect = document.getElementById('birthYear');
+    const birthMonthSelect = document.getElementById('birthMonth');
+    const birthDaySelect = document.getElementById('birthDay');
     const resultSection = document.getElementById('resultSection');
 
     // 띠 배열 (쥐부터 시작, 1900년이 쥐띠)
@@ -22,60 +24,74 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '사수자리', emoji: '♐', startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 }
     ];
 
-    // 숫자만 입력되도록 처리하고 자동으로 공백 추가
-    birthDateInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 남김
+    // 연도 옵션 생성 (현재 연도부터 1900년까지)
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear; year >= 1900; year--) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year + '년';
+        birthYearSelect.appendChild(option);
+    }
 
-        // 자동 공백 추가: YYYY MM DD
-        if (value.length > 4) {
-            value = value.slice(0, 4) + ' ' + value.slice(4);
+    // 월 옵션 생성
+    for (let month = 1; month <= 12; month++) {
+        const option = document.createElement('option');
+        option.value = month;
+        option.textContent = month + '월';
+        birthMonthSelect.appendChild(option);
+    }
+
+    // 일 옵션 생성 (기본 31일)
+    function updateDays() {
+        const year = parseInt(birthYearSelect.value) || currentYear;
+        const month = parseInt(birthMonthSelect.value) || 1;
+        const currentDay = birthDaySelect.value;
+
+        // 해당 월의 마지막 날 계산
+        const lastDay = new Date(year, month, 0).getDate();
+
+        // 기존 옵션 제거 (첫 번째 placeholder 제외)
+        while (birthDaySelect.options.length > 1) {
+            birthDaySelect.remove(1);
         }
-        if (value.length > 7) {
-            value = value.slice(0, 7) + ' ' + value.slice(7);
+
+        // 새로운 일 옵션 생성
+        for (let day = 1; day <= lastDay; day++) {
+            const option = document.createElement('option');
+            option.value = day;
+            option.textContent = day + '일';
+            birthDaySelect.appendChild(option);
         }
 
-        e.target.value = value.slice(0, 10); // 최대 10자 (YYYY MM DD)
+        // 이전 선택값 복원 (가능한 경우)
+        if (currentDay && parseInt(currentDay) <= lastDay) {
+            birthDaySelect.value = currentDay;
+        }
+    }
 
+    // 초기 일 옵션 생성
+    updateDays();
+
+    // 이벤트 리스너
+    birthYearSelect.addEventListener('change', function() {
+        updateDays();
         calculateAge();
     });
 
-    // 붙여넣기 시에도 처리
-    birthDateInput.addEventListener('paste', function(e) {
-        setTimeout(function() {
-            let value = birthDateInput.value.replace(/[^0-9]/g, '');
-            if (value.length > 4) {
-                value = value.slice(0, 4) + ' ' + value.slice(4);
-            }
-            if (value.length > 7) {
-                value = value.slice(0, 7) + ' ' + value.slice(7);
-            }
-            birthDateInput.value = value.slice(0, 10);
-            calculateAge();
-        }, 0);
+    birthMonthSelect.addEventListener('change', function() {
+        updateDays();
+        calculateAge();
     });
 
+    birthDaySelect.addEventListener('change', calculateAge);
+
     function calculateAge() {
-        const birthDateValue = birthDateInput.value;
+        const year = parseInt(birthYearSelect.value);
+        const month = parseInt(birthMonthSelect.value);
+        const day = parseInt(birthDaySelect.value);
 
-        // YYYY MM DD 형식 검증 (10자리)
-        if (birthDateValue.length !== 10) {
-            resultSection.style.display = 'none';
-            return;
-        }
-
-        const parts = birthDateValue.split(' ');
-        if (parts.length !== 3) {
-            resultSection.style.display = 'none';
-            return;
-        }
-
-        const year = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10);
-        const day = parseInt(parts[2], 10);
-
-        // 유효한 날짜인지 검증
-        if (isNaN(year) || isNaN(month) || isNaN(day) ||
-            month < 1 || month > 12 || day < 1 || day > 31) {
+        // 모든 값이 선택되지 않으면 결과 숨김
+        if (!year || !month || !day) {
             resultSection.style.display = 'none';
             return;
         }
