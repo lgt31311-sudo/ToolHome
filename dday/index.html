@@ -15,25 +15,28 @@
     <div class="container">
         <h1>D-day 계산기</h1>
         <div class="calculator">
-            <div class="tabs">
-                <button class="tab-link active" onclick="openTab(event, 'd-day')">D-day 계산</button>
-                <button class="tab-link" onclick="openTab(event, 'date-diff')">날짜 차이 계산</button>
+            <div class="tabs" role="tablist">
+                <button class="tab-link active" data-tab="d-day" role="tab" aria-selected="true" aria-controls="d-day">D-day 계산</button>
+                <button class="tab-link" data-tab="date-diff" role="tab" aria-selected="false" aria-controls="date-diff">날짜 차이 계산</button>
             </div>
 
-            <div id="d-day" class="tab-content active">
-                <input type="date" id="d-day-picker">
-                <p class="result" id="d-day-result"></p>
+            <div id="d-day" class="tab-content active" role="tabpanel" aria-labelledby="d-day">
+                <label for="d-day-picker" class="sr-only">목표 날짜 선택</label>
+                <input type="date" id="d-day-picker" aria-label="D-day 목표 날짜">
+                <p class="result" id="d-day-result" aria-live="polite"></p>
             </div>
 
-            <div id="date-diff" class="tab-content">
+            <div id="date-diff" class="tab-content" role="tabpanel" aria-labelledby="date-diff">
                 <div class="date-range">
-                    <input type="date" id="start-date">
-                    <span>~</span>
-                    <input type="date" id="end-date">
+                    <label for="start-date" class="sr-only">시작 날짜</label>
+                    <input type="date" id="start-date" aria-label="시작 날짜">
+                    <span aria-hidden="true">~</span>
+                    <label for="end-date" class="sr-only">종료 날짜</label>
+                    <input type="date" id="end-date" aria-label="종료 날짜">
                 </div>
-                <p class="result" id="date-diff-result"></p>
+                <p class="result" id="date-diff-result" aria-live="polite"></p>
             </div>
-            <button id="copyBtn">결과 복사</button>
+            <button id="copyBtn" aria-label="계산 결과 클립보드에 복사">결과 복사</button>
         </div>
         
         <div class="info-section">

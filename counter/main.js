@@ -29,10 +29,16 @@ function countCharacters() {
   const utf8ByteCount = new Blob([text]).size;
   utf8Bytes.textContent = utf8ByteCount.toLocaleString();
 
-  // EUC-KR 바이트 수 (추정: 한글 2바이트, 그 외 1바이트)
+  // EUC-KR 바이트 수 (추정: 한글/한자/특수문자 2바이트, 그 외 1바이트)
   let eucKrCount = 0;
   for (const char of text) {
-    if (/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(char)) {
+    const code = char.charCodeAt(0);
+    if (
+      /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(char) ||  // 한글
+      (code >= 0x4E00 && code <= 0x9FFF) ||  // CJK 통합 한자
+      (code >= 0x3400 && code <= 0x4DBF) ||  // CJK 확장 A
+      (code >= 0xFF00 && code <= 0xFFEF)     // 전각 문자
+    ) {
       eucKrCount += 2;
     } else {
       eucKrCount += 1;

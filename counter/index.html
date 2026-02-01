@@ -23,38 +23,38 @@
     <section class="input-section">
       <textarea id="textInput" placeholder="여기에 텍스트를 입력하세요..." aria-label="텍스트 입력"></textarea>
       <div class="button-group">
-        <button type="button" id="copyBtn" class="btn btn-secondary">복사</button>
-        <button type="button" id="clearBtn" class="btn btn-secondary">지우기</button>
+        <button type="button" id="copyBtn" class="btn btn-secondary" aria-label="텍스트 클립보드에 복사">복사</button>
+        <button type="button" id="clearBtn" class="btn btn-secondary" aria-label="입력 내용 지우기">지우기</button>
       </div>
     </section>
     
-    <section class="stats">
-      <div class="stat-box">
-        <span class="stat-label">공백 포함</span>
-        <span class="stat-value" id="withSpaces">0</span>
+    <section class="stats" aria-label="글자 수 통계">
+      <div class="stat-box" role="status" aria-live="polite">
+        <span class="stat-label" id="label-withSpaces">공백 포함</span>
+        <span class="stat-value" id="withSpaces" aria-labelledby="label-withSpaces">0</span>
       </div>
-      <div class="stat-box">
-        <span class="stat-label">공백 제외</span>
-        <span class="stat-value" id="withoutSpaces">0</span>
+      <div class="stat-box" role="status" aria-live="polite">
+        <span class="stat-label" id="label-withoutSpaces">공백 제외</span>
+        <span class="stat-value" id="withoutSpaces" aria-labelledby="label-withoutSpaces">0</span>
       </div>
-      <div class="stat-box">
-        <span class="stat-label">단어 수</span>
-        <span class="stat-value" id="wordCount">0</span>
+      <div class="stat-box" role="status" aria-live="polite">
+        <span class="stat-label" id="label-wordCount">단어 수</span>
+        <span class="stat-value" id="wordCount" aria-labelledby="label-wordCount">0</span>
       </div>
-      <div class="stat-box">
-        <span class="stat-label">줄 수</span>
-        <span class="stat-value" id="lineCount">0</span>
+      <div class="stat-box" role="status" aria-live="polite">
+        <span class="stat-label" id="label-lineCount">줄 수</span>
+        <span class="stat-value" id="lineCount" aria-labelledby="label-lineCount">0</span>
       </div>
     </section>
-    
-    <section class="stats stats-bytes">
-      <div class="stat-box stat-box-alt">
-        <span class="stat-label">UTF-8 바이트</span>
-        <span class="stat-value" id="utf8Bytes">0</span>
+
+    <section class="stats stats-bytes" aria-label="바이트 통계">
+      <div class="stat-box stat-box-alt" role="status" aria-live="polite">
+        <span class="stat-label" id="label-utf8Bytes">UTF-8 바이트</span>
+        <span class="stat-value" id="utf8Bytes" aria-labelledby="label-utf8Bytes">0</span>
       </div>
-      <div class="stat-box stat-box-alt">
-        <span class="stat-label">EUC-KR 바이트</span>
-        <span class="stat-value" id="eucKrBytes">0</span>
+      <div class="stat-box stat-box-alt" role="status" aria-live="polite">
+        <span class="stat-label" id="label-eucKrBytes">EUC-KR 바이트</span>
+        <span class="stat-value" id="eucKrBytes" aria-labelledby="label-eucKrBytes">0</span>
       </div>
     </section>
     

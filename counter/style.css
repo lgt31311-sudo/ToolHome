@@ -154,19 +154,31 @@ textarea::placeholder {
   color: #aaa;
 }
 
+.back-link {
+  display: block;
+  margin-top: 24px;
+  text-align: center;
+  color: #667eea;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 480px) {
   .container {
     padding: 24px;
   }
-  
+
   h1 {
     font-size: 24px;
   }
-  
+
   .stat-value {
     font-size: 24px;
   }
-  
+
   .stats {
     grid-template-columns: repeat(2, 1fr);
   }

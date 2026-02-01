@@ -1,16 +1,17 @@
 
-function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tab-link");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
+function openTab(tabName) {
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    const tabLinks = document.querySelectorAll('.tab-link');
+    tabLinks.forEach(link => {
+        link.classList.remove('active');
+    });
+
+    document.getElementById(tabName).classList.add('active');
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
 }
 
 const dDayPicker = document.getElementById('d-day-picker');
@@ -70,5 +71,13 @@ startDate.value = today;
 endDate.value = today;
 
 document.addEventListener('DOMContentLoaded', () => {
-    openTab({ currentTarget: document.querySelector('.tab-link') }, 'd-day');
+    // 탭 버튼 이벤트 리스너 등록
+    document.querySelectorAll('.tab-link').forEach(button => {
+        button.addEventListener('click', () => {
+            openTab(button.dataset.tab);
+        });
+    });
+
+    // 초기 D-day 계산
+    calculateDday();
 });
