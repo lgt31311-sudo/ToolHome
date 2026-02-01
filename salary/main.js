@@ -21,7 +21,9 @@ const TAX_BRACKETS = [
 
 // DOM 요소
 const salaryInput = document.getElementById('salary');
+const salaryTypeSelect = document.getElementById('salaryType');
 const salaryUnitSelect = document.getElementById('salaryUnit');
+const salaryLabel = document.getElementById('salaryLabel');
 const dependentsSelect = document.getElementById('dependents');
 const childrenSelect = document.getElementById('children');
 const nonTaxableInput = document.getElementById('nonTaxable');
@@ -32,6 +34,10 @@ const resultSection = document.getElementById('resultSection');
 calculateBtn.addEventListener('click', calculate);
 salaryInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') calculate();
+});
+salaryTypeSelect.addEventListener('change', () => {
+    salaryLabel.textContent = salaryTypeSelect.value === 'yearly' ? '연봉' : '월급';
+    salaryInput.placeholder = salaryTypeSelect.value === 'yearly' ? '예: 5000' : '예: 400';
 });
 
 // 숫자 포맷팅
@@ -119,18 +125,20 @@ function calculateSimplifiedTax(monthlyTaxableIncome, dependents, children) {
 // 메인 계산 함수
 function calculate() {
     const salaryValue = parseFloat(salaryInput.value);
+    const salaryType = salaryTypeSelect.value;
     const salaryUnit = parseInt(salaryUnitSelect.value);
     const dependents = parseInt(dependentsSelect.value);
     const children = parseInt(childrenSelect.value);
     const nonTaxable = parseFloat(nonTaxableInput.value) || 0;
 
     if (isNaN(salaryValue) || salaryValue <= 0) {
-        alert('연봉을 입력해주세요.');
+        alert(salaryType === 'yearly' ? '연봉을 입력해주세요.' : '월급을 입력해주세요.');
         return;
     }
 
-    // 연봉을 원 단위로 변환
-    const yearlySalary = salaryValue * salaryUnit;
+    // 연봉을 원 단위로 변환 (월급인 경우 12를 곱함)
+    const inputAmount = salaryValue * salaryUnit;
+    const yearlySalary = salaryType === 'yearly' ? inputAmount : inputAmount * 12;
     const monthlySalary = yearlySalary / 12;
 
     // 과세 대상 월급 (비과세액 제외)
