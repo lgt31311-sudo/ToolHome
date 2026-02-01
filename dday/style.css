@@ -1,7 +1,7 @@
 
 body {
     background: linear-gradient(120deg, #89f7fe, #66a6ff);
-    font-family: sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
