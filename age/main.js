@@ -24,71 +24,41 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: '사수자리', emoji: '♐', startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 }
     ];
 
-    // 연도 옵션 생성 (현재 연도부터 1900년까지)
-    const currentYear = new Date().getFullYear();
-    for (let year = currentYear; year >= 1900; year--) {
-        const option = document.createElement('option');
+    // 연도 옵션 생성 (현재 연도부터 100년 전까지)
+    var currentYear = new Date().getFullYear();
+    var startYear = currentYear - 100;
+    for (var year = currentYear; year >= startYear; year--) {
+        var option = document.createElement('option');
         option.value = year;
         option.textContent = year + '년';
         birthYearSelect.appendChild(option);
     }
 
-    // 월 옵션 생성
-    for (let month = 1; month <= 12; month++) {
-        const option = document.createElement('option');
+    // 월 옵션 생성 (1~12)
+    for (var month = 1; month <= 12; month++) {
+        var option = document.createElement('option');
         option.value = month;
         option.textContent = month + '월';
         birthMonthSelect.appendChild(option);
     }
 
-    // 일 옵션 생성 (기본 31일)
-    function updateDays() {
-        const year = parseInt(birthYearSelect.value) || currentYear;
-        const month = parseInt(birthMonthSelect.value) || 1;
-        const currentDay = birthDaySelect.value;
-
-        // 해당 월의 마지막 날 계산
-        const lastDay = new Date(year, month, 0).getDate();
-
-        // 기존 옵션 제거 (첫 번째 placeholder 제외)
-        while (birthDaySelect.options.length > 1) {
-            birthDaySelect.remove(1);
-        }
-
-        // 새로운 일 옵션 생성
-        for (let day = 1; day <= lastDay; day++) {
-            const option = document.createElement('option');
-            option.value = day;
-            option.textContent = day + '일';
-            birthDaySelect.appendChild(option);
-        }
-
-        // 이전 선택값 복원 (가능한 경우)
-        if (currentDay && parseInt(currentDay) <= lastDay) {
-            birthDaySelect.value = currentDay;
-        }
+    // 일 옵션 생성 (1~31)
+    for (var day = 1; day <= 31; day++) {
+        var option = document.createElement('option');
+        option.value = day;
+        option.textContent = day + '일';
+        birthDaySelect.appendChild(option);
     }
 
-    // 초기 일 옵션 생성
-    updateDays();
-
     // 이벤트 리스너
-    birthYearSelect.addEventListener('change', function() {
-        updateDays();
-        calculateAge();
-    });
-
-    birthMonthSelect.addEventListener('change', function() {
-        updateDays();
-        calculateAge();
-    });
-
+    birthYearSelect.addEventListener('change', calculateAge);
+    birthMonthSelect.addEventListener('change', calculateAge);
     birthDaySelect.addEventListener('change', calculateAge);
 
     function calculateAge() {
-        const year = parseInt(birthYearSelect.value);
-        const month = parseInt(birthMonthSelect.value);
-        const day = parseInt(birthDaySelect.value);
+        var year = parseInt(birthYearSelect.value);
+        var month = parseInt(birthMonthSelect.value);
+        var day = parseInt(birthDaySelect.value);
 
         // 모든 값이 선택되지 않으면 결과 숨김
         if (!year || !month || !day) {
@@ -96,50 +66,51 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const birthDate = new Date(year, month - 1, day);
-        const today = new Date();
+        var birthDate = new Date(year, month - 1, day);
+        var today = new Date();
 
         // 오늘 날짜 자정으로 설정
         today.setHours(0, 0, 0, 0);
         birthDate.setHours(0, 0, 0, 0);
 
-        const birthYear = birthDate.getFullYear();
-        const birthMonth = birthDate.getMonth();
-        const birthDay = birthDate.getDate();
+        var birthYear = birthDate.getFullYear();
+        var birthMonth = birthDate.getMonth();
+        var birthDay = birthDate.getDate();
 
-        const currentYear = today.getFullYear();
-        const currentMonth = today.getMonth();
-        const currentDay = today.getDate();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth();
+        var todayDay = today.getDate();
 
         // 만 나이 계산
-        let fullAge = currentYear - birthYear;
-        if (currentMonth < birthMonth || (currentMonth === birthMonth && currentDay < birthDay)) {
+        var fullAge = todayYear - birthYear;
+        if (todayMonth < birthMonth || (todayMonth === birthMonth && todayDay < birthDay)) {
             fullAge--;
         }
 
         // 세는 나이 계산
-        const koreanAge = currentYear - birthYear + 1;
+        var koreanAge = todayYear - birthYear + 1;
 
         // 연 나이 계산
-        const yearAge = currentYear - birthYear;
+        var yearAge = todayYear - birthYear;
 
         // 다음 생일까지 D-day 계산
-        let nextBirthday = new Date(currentYear, birthMonth, birthDay);
+        var nextBirthday = new Date(todayYear, birthMonth, birthDay);
         if (nextBirthday <= today) {
-            nextBirthday = new Date(currentYear + 1, birthMonth, birthDay);
+            nextBirthday = new Date(todayYear + 1, birthMonth, birthDay);
         }
-        const daysUntilBirthday = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+        var daysUntilBirthday = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
 
         // 태어난 지 며칠째인지
-        const daysLived = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24)) + 1;
+        var daysLived = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24)) + 1;
 
         // 띠 계산
-        const zodiacIndex = (birthYear - 1900) % 12;
-        const zodiac = zodiacAnimals[zodiacIndex < 0 ? zodiacIndex + 12 : zodiacIndex];
-        const zodiacEmoji = zodiacEmojis[zodiacIndex < 0 ? zodiacIndex + 12 : zodiacIndex];
+        var zodiacIndex = (birthYear - 1900) % 12;
+        if (zodiacIndex < 0) zodiacIndex += 12;
+        var zodiac = zodiacAnimals[zodiacIndex];
+        var zodiacEmoji = zodiacEmojis[zodiacIndex];
 
         // 별자리 계산
-        const constellation = getConstellation(birthMonth + 1, birthDay);
+        var constellation = getConstellation(birthMonth + 1, birthDay);
 
         // 결과 표시
         resultSection.style.display = 'block';
@@ -164,9 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getConstellation(month, day) {
-        for (const c of constellations) {
+        for (var i = 0; i < constellations.length; i++) {
+            var c = constellations[i];
             if (c.startMonth === 12 && c.endMonth === 1) {
-                // 염소자리 특수 처리 (12월~1월)
                 if ((month === 12 && day >= c.startDay) || (month === 1 && day <= c.endDay)) {
                     return c;
                 }
@@ -181,8 +152,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function formatDate(date) {
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
         return month + '월 ' + day + '일';
     }
 });
