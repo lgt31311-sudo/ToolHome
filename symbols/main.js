@@ -853,12 +853,12 @@ const symbolData = {
 };
 
 // DOM 요소
-const searchInput = document.getElementById('searchInput');
-const recentSection = document.getElementById('recentSection');
-const recentGrid = document.getElementById('recentGrid');
-const symbolGrid = document.getElementById('symbolGrid');
-const toast = document.getElementById('toast');
-const tabButtons = document.querySelectorAll('.tab-btn');
+let searchInput;
+let recentSection;
+let recentGrid;
+let symbolGrid;
+let toast;
+let categoryTabs;
 
 // 현재 선택된 카테고리
 let currentCategory = 'emoji';
@@ -868,6 +868,15 @@ let recentSymbols = JSON.parse(localStorage.getItem('recentSymbols')) || [];
 
 // 초기화
 function init() {
+  // DOM 요소 초기화
+  searchInput = document.getElementById('searchInput');
+  recentSection = document.getElementById('recentSection');
+  recentGrid = document.getElementById('recentGrid');
+  symbolGrid = document.getElementById('symbolGrid');
+  toast = document.getElementById('toast');
+  categoryTabs = document.querySelector('.category-tabs');
+
+  // 초기 카테고리의 이모지 렌더링
   renderSymbols(currentCategory);
   renderRecentSymbols();
   setupEventListeners();
@@ -875,15 +884,26 @@ function init() {
 
 // 이벤트 리스너 설정
 function setupEventListeners() {
-  // 탭 버튼 클릭
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentCategory = btn.dataset.category;
-      searchInput.value = '';
-      renderSymbols(currentCategory);
-    });
+  // 탭 버튼 클릭 (이벤트 위임)
+  categoryTabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+
+    // 모든 탭에서 active 제거
+    const allTabs = categoryTabs.querySelectorAll('.tab-btn');
+    allTabs.forEach(b => b.classList.remove('active'));
+
+    // 클릭된 탭에 active 추가
+    btn.classList.add('active');
+
+    // 카테고리 변경
+    currentCategory = btn.dataset.category;
+
+    // 검색어 초기화
+    searchInput.value = '';
+
+    // 해당 카테고리의 모든 이모지 렌더링
+    renderSymbols(currentCategory);
   });
 
   // 검색
