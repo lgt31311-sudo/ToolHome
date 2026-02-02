@@ -915,13 +915,34 @@ function setupEventListeners() {
       renderSymbols(currentCategory);
     }
   });
+
+  // 문자 버튼 클릭 (이벤트 위임) - symbolGrid
+  symbolGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.symbol-btn');
+    if (!btn) return;
+    handleSymbolClick(btn);
+  });
+
+  // 문자 버튼 클릭 (이벤트 위임) - recentGrid
+  recentGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('.symbol-btn');
+    if (!btn) return;
+    handleSymbolClick(btn);
+  });
+}
+
+// 문자 버튼 클릭 처리
+function handleSymbolClick(btn) {
+  const char = btn.dataset.char;
+  const name = btn.dataset.name;
+  copyToClipboard(char, btn);
+  addToRecent(char, name);
 }
 
 // 문자 렌더링
 function renderSymbols(category) {
   const symbols = symbolData[category] || [];
   symbolGrid.innerHTML = symbols.map(s => createSymbolButton(s)).join('');
-  attachSymbolClickHandlers();
 }
 
 // 검색 결과 렌더링
@@ -935,25 +956,12 @@ function searchSymbols(query) {
     symbolGrid.innerHTML = '<div class="no-results">검색 결과가 없습니다</div>';
   } else {
     symbolGrid.innerHTML = results.map(s => createSymbolButton(s)).join('');
-    attachSymbolClickHandlers();
   }
 }
 
 // 문자 버튼 생성
 function createSymbolButton(symbol) {
   return `<button type="button" class="symbol-btn" data-char="${symbol.char}" data-name="${symbol.name}" data-tooltip="${symbol.name}">${symbol.char}</button>`;
-}
-
-// 클릭 핸들러 연결
-function attachSymbolClickHandlers() {
-  document.querySelectorAll('.symbol-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const char = btn.dataset.char;
-      const name = btn.dataset.name;
-      copyToClipboard(char, btn);
-      addToRecent(char, name);
-    });
-  });
 }
 
 // 클립보드 복사
@@ -1015,16 +1023,6 @@ function renderRecentSymbols() {
 
   recentSection.style.display = 'block';
   recentGrid.innerHTML = recentSymbols.map(s => createSymbolButton(s)).join('');
-
-  // 클릭 핸들러 연결
-  recentGrid.querySelectorAll('.symbol-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const char = btn.dataset.char;
-      const name = btn.dataset.name;
-      copyToClipboard(char, btn);
-      addToRecent(char, name);
-    });
-  });
 }
 
 // 페이지 로드 시 초기화
