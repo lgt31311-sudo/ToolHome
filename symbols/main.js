@@ -1028,4 +1028,8 @@ function renderRecentSymbols() {
 }
 
 // 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', init);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
