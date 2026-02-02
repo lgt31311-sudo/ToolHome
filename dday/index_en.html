@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D-day Calculator - Date Interval Calculation</title>
+    <meta name="description" content="Calculate the remaining days (D-day) until a selected date or check the interval between two dates.">
+    <meta property="og:title" content="D-day Calculator - Date Interval Calculation">
+    <meta property="og:description" content="Easily calculate D-day and date intervals.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .language-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-toggle">
+        <a href="index.html" style="color: black; text-decoration: none; margin-right: 10px;">KO</a>
+        <a href="index_en.html" style="color: black; text-decoration: none;">EN</a>
+    </div>
+    <div class="container">
+        <h1>D-day Calculator</h1>
+        <div class="calculator">
+            <div class="tabs" role="tablist">
+                <button class="tab-link active" data-tab="d-day" role="tab" aria-selected="true" aria-controls="d-day">D-day Calculation</button>
+                <button class="tab-link" data-tab="date-diff" role="tab" aria-selected="false" aria-controls="date-diff">Date Difference Calculation</button>
+            </div>
+
+            <div id="d-day" class="tab-content active" role="tabpanel" aria-labelledby="d-day">
+                <label for="d-day-picker" class="sr-only">Select target date</label>
+                <input type="date" id="d-day-picker" aria-label="D-day target date">
+                <p class="result" id="d-day-result" aria-live="polite"></p>
+            </div>
+
+            <div id="date-diff" class="tab-content" role="tabpanel" aria-labelledby="date-diff">
+                <div class="date-range">
+                    <label for="start-date" class="sr-only">Start date</label>
+                    <input type="date" id="start-date" aria-label="Start date">
+                    <span aria-hidden="true">~</span>
+                    <label for="end-date" class="sr-only">End date</label>
+                    <input type="date" id="end-date" aria-label="End date">
+                </div>
+                <p class="result" id="date-diff-result" aria-live="polite"></p>
+            </div>
+            <button id="copyBtn" aria-label="Copy calculation result to clipboard">Copy Result</button>
+        </div>
+        
+        <div class="info-section">
+          <h2>How to Use and Examples</h2>
+          <p><strong>D-day Calculation:</strong> Calculate the remaining days until a specific anniversary (exam, birthday, etc.).</p>
+          <p><strong>Date Difference Calculation:</strong> Calculate the exact number of days between two dates, such as a project period or a travel period.</p>
+        </div>
+
+        <a href="../" class="back-link">See other tools</a>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

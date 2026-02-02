@@ -1,0 +1,96 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Check character count, character count without spaces, byte count, word count, and line count in real time. Useful for writing blogs, social media posts, and resumes." />
+  <meta name="keywords" content="character count, character counter, byte counter, text counter, with spaces, without spaces" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Character Counter - Real-time Character/Byte Counter" />
+  <meta property="og:description" content="Check character count, byte count, and word count in real time." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+
+  <title>Character Counter - Real-time Character/Byte Counter</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css" />
+  <link href="./style.css" rel="stylesheet" />
+  <style>
+    .language-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="language-toggle">
+      <a href="index.html" style="color: black; text-decoration: none; margin-right: 10px;">KO</a>
+      <a href="index_en.html" style="color: black; text-decoration: none;">EN</a>
+  </div>
+  <main class="container">
+    <h1>Character Counter</h1>
+
+    <section class="input-section">
+      <textarea id="textInput" placeholder="Enter text here..." aria-label="Text input"></textarea>
+      <div class="button-group">
+        <button type="button" id="copyBtn" class="btn btn-secondary" aria-label="Copy text to clipboard">Copy</button>
+        <button type="button" id="clearBtn" class="btn btn-secondary" aria-label="Clear input">Clear</button>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Character count statistics">
+      <div class="stat-box" role="status" aria-live="polite">
+        <span class="stat-label" id="label-withSpaces">With Spaces</span>
+        <span class="stat-value" id="withSpaces" aria-labelledby="label-withSpaces">0</span>
+      </div>
+      <div class="stat-box" role="status" aria-live="polite">
+        <span class="stat-label" id="label-withoutSpaces">Without Spaces</span>
+        <span class="stat-value" id="withoutSpaces" aria-labelledby="label-withoutSpaces">0</span>
+      </div>
+      <div class="stat-box" role="status" aria-live="polite">
+        <span class="stat-label" id="label-wordCount">Word Count</span>
+        <span class="stat-value" id="wordCount" aria-labelledby="label-wordCount">0</span>
+      </div>
+      <div class="stat-box" role="status" aria-live="polite">
+        <span class="stat-label" id="label-lineCount">Line Count</span>
+        <span class="stat-value" id="lineCount" aria-labelledby="label-lineCount">0</span>
+      </div>
+    </section>
+
+    <section class="stats stats-bytes" aria-label="Byte statistics">
+      <div class="stat-box stat-box-alt" role="status" aria-live="polite">
+        <span class="stat-label" id="label-utf8Bytes">UTF-8 Bytes</span>
+        <span class="stat-value" id="utf8Bytes" aria-labelledby="label-utf8Bytes">0</span>
+      </div>
+      <div class="stat-box stat-box-alt" role="status" aria-live="polite">
+        <span class="stat-label" id="label-eucKrBytes">EUC-KR Bytes</span>
+        <span class="stat-value" id="eucKrBytes" aria-labelledby="label-eucKrBytes">0</span>
+      </div>
+    </section>
+
+    <!-- Ad space -->
+    <!-- <div class="ad-container"></div> -->
+
+    <section class="info-section">
+      <h2>How to Use</h2>
+      <p>Enter text to see the character count, byte count, word count, and line count calculated in real time.</p>
+
+      <h2>Usage Examples</h2>
+      <ul>
+        <li>Checking character limits for blogs/social media (Instagram: 2,200, Twitter: 280)</li>
+        <li>Adjusting character count for resumes and cover letters</li>
+        <li>Checking byte count for SMS messages (Korean: 2 bytes, English: 1 byte)</li>
+        <li>Naver blog titles (40 characters), body summaries (200 characters), etc.</li>
+      </ul>
+
+      <h2>Byte Calculation Standards</h2>
+      <p>Based on UTF-8, Korean characters are 3 bytes, while English/numeric characters are 1 byte. Based on EUC-KR, Korean characters are 2 bytes, while English/numeric characters are 1 byte. SMS and some systems use the EUC-KR standard.</p>
+    </section>
+    <a href="../" class="back-link">See other tools</a>
+  </main>
+
+  <script defer src="./main.js"></script>
+</body>
+</html>

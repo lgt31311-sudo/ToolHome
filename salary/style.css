@@ -104,6 +104,11 @@ h3 {
     min-width: 75px;
 }
 
+.input-with-unit select:first-child option {
+    background: white;
+    color: #333;
+}
+
 .input-with-unit select:focus {
     outline: none;
     border-color: #667eea;
