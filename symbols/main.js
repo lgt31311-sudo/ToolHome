@@ -1,3 +1,4 @@
+console.log('특수문자 스크립트 로드됨');
 // 특수문자 데이터
 const symbolData = {
   emoji: [
@@ -868,11 +869,13 @@ let recentSymbols = JSON.parse(localStorage.getItem('recentSymbols')) || [];
 
 // 초기화
 function init() {
+  console.log('초기화 시작');
   // DOM 요소 초기화
   searchInput = document.getElementById('searchInput');
   recentSection = document.getElementById('recentSection');
   recentGrid = document.getElementById('recentGrid');
   symbolGrid = document.getElementById('symbolGrid');
+  console.log('symbolGrid 요소:', symbolGrid);
   toast = document.getElementById('toast');
   categoryTabs = document.querySelector('.category-tabs');
 
