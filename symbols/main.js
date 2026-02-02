@@ -915,34 +915,13 @@ function setupEventListeners() {
       renderSymbols(currentCategory);
     }
   });
-
-  // 문자 버튼 클릭 (이벤트 위임) - symbolGrid
-  symbolGrid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.symbol-btn');
-    if (!btn) return;
-    handleSymbolClick(btn);
-  });
-
-  // 문자 버튼 클릭 (이벤트 위임) - recentGrid
-  recentGrid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.symbol-btn');
-    if (!btn) return;
-    handleSymbolClick(btn);
-  });
-}
-
-// 문자 버튼 클릭 처리
-function handleSymbolClick(btn) {
-  const char = btn.dataset.char;
-  const name = btn.dataset.name;
-  copyToClipboard(char, btn);
-  addToRecent(char, name);
 }
 
 // 문자 렌더링
 function renderSymbols(category) {
   const symbols = symbolData[category] || [];
   symbolGrid.innerHTML = symbols.map(s => createSymbolButton(s)).join('');
+  attachSymbolClickHandlers();
 }
 
 // 검색 결과 렌더링
@@ -956,6 +935,7 @@ function searchSymbols(query) {
     symbolGrid.innerHTML = '<div class="no-results">검색 결과가 없습니다</div>';
   } else {
     symbolGrid.innerHTML = results.map(s => createSymbolButton(s)).join('');
+    attachSymbolClickHandlers();
   }
 }
 
@@ -965,6 +945,18 @@ function createSymbolButton(symbol) {
 }
 
 // 클릭 핸들러 연결
+function attachSymbolClickHandlers() {
+  document.querySelectorAll('.symbol-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const char = btn.dataset.char;
+      const name = btn.dataset.name;
+      copyToClipboard(char, btn);
+      addToRecent(char, name);
+    });
+  });
+}
+
+// 클립보드 복사
 async function copyToClipboard(text, button) {
   try {
     await navigator.clipboard.writeText(text);
