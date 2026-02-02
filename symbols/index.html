@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="자주 쓰는 특수문자, 이모지, 화살표, 괄호 등을 클릭 한 번으로 복사하세요. 카테고리별 정리로 원하는 기호를 쉽게 찾을 수 있습니다." />
+  <meta name="keywords" content="특수문자, 이모지, 이모티콘, 화살표, 특수기호, 복사, 붙여넣기, 원문자, 괄호" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="특수문자 이모지 모음 - 클릭 한 번으로 복사" />
+  <meta property="og:description" content="자주 쓰는 특수문자, 이모지, 화살표, 괄호 등을 클릭 한 번으로 복사하세요. 카테고리별 정리로 원하는 기호를 쉽게 찾을 수 있습니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ko_KR" />
+
+  <title>특수문자 이모지 모음 - 클릭 한 번으로 복사</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css" />
+  <link href="./style.css" rel="stylesheet" />
+</head>
+<body>
+  <main class="container">
+    <h1>특수문자 이모지 모음</h1>
+
+    <!-- 검색 섹션 -->
+    <section class="search-section">
+      <input type="text" id="searchInput" placeholder="문자 이름으로 검색..." aria-label="특수문자 검색" />
+    </section>
+
+    <!-- 최근 복사 섹션 -->
+    <section class="recent-section" id="recentSection" style="display: none;">
+      <h2>최근 복사한 문자</h2>
+      <div class="symbol-grid" id="recentGrid"></div>
+    </section>
+
+    <!-- 카테고리 탭 -->
+    <nav class="category-tabs" aria-label="카테고리 선택">
+      <button type="button" class="tab-btn active" data-category="emoji">이모지</button>
+      <button type="button" class="tab-btn" data-category="arrow">화살표</button>
+      <button type="button" class="tab-btn" data-category="star">별/하트</button>
+      <button type="button" class="tab-btn" data-category="check">체크/동그라미</button>
+      <button type="button" class="tab-btn" data-category="bracket">괄호/따옴표</button>
+      <button type="button" class="tab-btn" data-category="number">숫자/원문자</button>
+      <button type="button" class="tab-btn" data-category="math">수학 기호</button>
+      <button type="button" class="tab-btn" data-category="unit">단위 기호</button>
+      <button type="button" class="tab-btn" data-category="line">선/도형</button>
+      <button type="button" class="tab-btn" data-category="etc">기타</button>
+    </nav>
+
+    <!-- 문자 그리드 -->
+    <section class="symbols-section">
+      <div class="symbol-grid" id="symbolGrid"></div>
+    </section>
+
+    <!-- 복사 알림 -->
+    <div class="toast" id="toast">복사됨!</div>
+
+    <!-- 광고 영역 -->
+    <!-- <div class="ad-container"></div> -->
+
+    <!-- 정보 섹션 -->
+    <section class="info-section">
+      <h2>특수문자 입력 방법</h2>
+      <p>특수문자를 입력하는 방법은 여러 가지가 있습니다:</p>
+      <ul>
+        <li><strong>복사/붙여넣기</strong>: 이 페이지에서 원하는 문자를 클릭하면 자동으로 클립보드에 복사됩니다. Ctrl+V (Mac: Cmd+V)로 붙여넣으세요.</li>
+        <li><strong>Windows 문자표</strong>: Win+. 키를 누르면 이모지 패널이 열립니다. Win+R → charmap으로 문자표를 열 수도 있습니다.</li>
+        <li><strong>Mac 문자 뷰어</strong>: Ctrl+Cmd+스페이스바로 이모지 및 기호 뷰어를 열 수 있습니다.</li>
+        <li><strong>한글 자음 + 한자키</strong>: ㅁ+한자 → 특수문자, ㄱ+한자 → 괄호 등의 조합으로 입력할 수 있습니다.</li>
+      </ul>
+
+      <h2>특수문자 활용 팁</h2>
+      <ul>
+        <li><strong>SNS 꾸미기</strong>: 인스타그램, 트위터 등에서 프로필이나 게시글을 꾸밀 때 이모지와 특수문자를 활용하세요.</li>
+        <li><strong>문서 작성</strong>: 체크표시(✓), 화살표(→), 원문자(①②③) 등은 문서를 정리할 때 유용합니다.</li>
+        <li><strong>수학/과학</strong>: 수학 기호(±, ×, ÷, √, ∞)나 단위 기호(°, ℃, ㎞)는 학술 문서에 필수입니다.</li>
+        <li><strong>디자인 강조</strong>: 별(★☆), 하트(♥♡), 도형(■□▲△) 등으로 텍스트를 강조할 수 있습니다.</li>
+      </ul>
+
+      <h2>자주 사용하는 특수문자</h2>
+      <p>각 카테고리별로 자주 사용되는 특수문자를 정리했습니다. 이모지는 감정 표현과 SNS에서, 화살표와 체크 기호는 문서 작성에서 많이 사용됩니다. 원문자와 괄호는 목록 정리에 유용하고, 수학 기호와 단위 기호는 전문 문서 작성 시 필요합니다.</p>
+    </section>
+
+    <a href="../" class="back-link">다른 도구 보기</a>
+  </main>
+
+  <script defer src="./main.js"></script>
+</body>
+</html>
